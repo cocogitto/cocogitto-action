@@ -1,0 +1,9 @@
+name: 'Cog check'
+description: 'Check that your git log is conventional commit compliant'
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo Running cog check
+    - run: ${{ github.action_path }}/cog.sh
+      shell: sh
