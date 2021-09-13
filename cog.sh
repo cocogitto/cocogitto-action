@@ -2,7 +2,7 @@
 
 set -a
 
-VERSION=2.1.1
+VERSION=3.0.0
 TAR="cocogitto-$VERSION-x86_64-unknown-linux-musl.tar.gz"
 CHECK=$1
 LATEST_TAG_ONLY=$2
