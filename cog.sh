@@ -42,5 +42,7 @@ if [ "$CHECK" = "true" ]; then
 fi
 
 if [ "$RELEASE" = "true" ]; then
-   "$BIN_DIR"/./cog bump --auto
+  "$BIN_DIR"/./cog bump --auto
+  VERSION="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
+  echo ::set-output name=version::"$VERSION"
 fi

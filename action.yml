@@ -26,18 +26,22 @@ inputs:
     description: 'Git user.email configuration'
     required: false
     default: 'cog@demo.org'
+outputs:
+  version:
+    description: "Version released"
+    value: ${{ steps.cog.outputs.version }}
 runs:
   using: "composite"
   steps:
     - run: echo Running cog check
       shell: sh
 
-    - run: |
+    - id: cog
+      run: |
         ${{ github.action_path }}/cog.sh    \
         ${{ inputs.check }} \
         ${{ inputs.check-latest-tag-only }} \
         ${{ inputs.release }}               \
         ${{ inputs.git-user }}              \
         ${{ inputs.git-user-email }}
-
-      shell: sh
+      shell: bash

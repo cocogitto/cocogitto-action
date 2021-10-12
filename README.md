@@ -4,7 +4,7 @@ This action uses [cocogitto](https://github.com/oknozor/cocogitto) to check
 your repository is [conventional commit](https://conventionalcommits.org/) and perform auto-release.
 
 ## Requirement
-
+-
 1. Before running this action you need to call checkout action with `fetch-depth: 0`. This is mandatory, otherwise not all commit 
 will be fetched and cocogitto will fail to execute (see [actions/checkout](https://github.com/actions/checkout#checkout-v2) for more info).
 
