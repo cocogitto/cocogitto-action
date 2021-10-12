@@ -64,10 +64,15 @@ You can also use this action to perform releases (calling `cog bump --auto` unde
 ```yaml
       - name: Semver release
         uses: oknozor/cocogitto-action@v1
+        id: release
         with:
           release: true
           git-user: 'Cog Bot'
           git-user-email: 'mycoolproject@org.org'
+
+      # The version number is accessible as a github action output
+      - name: Print version
+        run: "echo '${{ steps.release.outputs.version }}'"
 ```
 
 Note that you probably want to set the `git-user` and `git-user-email` options to override the default the git signature for the release commit. 
