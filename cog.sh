@@ -33,16 +33,16 @@ if [ "$CHECK" = "true" ]; then
     else
       message="No tag found checking history from first commit"
     fi
-      echo "$message"
-      "$BIN_DIR"/./cog check --from-latest-tag
+    echo "$message"
+    "$BIN_DIR"/./cog check --from-latest-tag || exit 1
   else
-     echo "Checking all commits"
-     "$BIN_DIR"/./cog check
+    echo "Checking all commits"
+    "$BIN_DIR"/./cog check || exit 1
   fi
 fi
 
 if [ "$RELEASE" = "true" ]; then
-  "$BIN_DIR"/./cog bump --auto
+  "$BIN_DIR"/./cog bump --auto || exit 1
   VERSION="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
   echo ::set-output name=version::"$VERSION"
 fi
