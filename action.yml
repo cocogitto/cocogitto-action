@@ -33,12 +33,20 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+    - run: echo Installing cocogitto
+      shell: bash
 
-    - run: echo Running cog check
+    - id: install
+      run: ${{ github.action_path }}/install.sh
+      shell: bash
+
+    - run: echo Running cocogitto
+      shell: bash
+
+    - id: add-to-path
       shell: sh
+      run: |
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
 
     - id: cog
       run: |
