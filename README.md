@@ -33,7 +33,7 @@ If you are familiar with cocogitto this will run `cog check` and nothing else.
 ## Check commits since latest tag 
 
 In some case you might want to perform check only since the latest tagged version.
-If your repository has not alway been conventional commit compliant, then you probably want to 
+If your repository has not always been conventional commits compliant, then you probably want to 
 use this option. 
 
 ```yaml
@@ -53,7 +53,7 @@ Let us assume the following git history :
 ```
 
 Using `check-latest-tag-only: true` here would make cocogitto check for the two commits made since
-tag `0.1.0`, the action would fail on *HEAD* which contains the non conventional commit
+tag `0.1.0`, the action would fail on *HEAD* which contains the non-conventional commit
 type 'WIP'.
 
 ## Performing release
@@ -78,6 +78,10 @@ You can also use this action to perform releases (calling `cog bump --auto` unde
 Note that you probably want to set the `git-user` and `git-user-email` options to override the default the git signature for the release commit. 
 If you are not familiar with how cocogitto perform release, you might want to read the [auto bump](https://github.com/oknozor/cocogitto#auto-bump)
 and [hook](https://github.com/oknozor/cocogitto#auto-bump) sections on cocogitto's documentation.
+
+## Post step run
+
+Once the step is finished cocogitto's binary will be available in your path.
 
 ##  Reference 
 
