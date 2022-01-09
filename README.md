@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 0
 
       - name: Conventional commit check
-        uses: oknozor/cocogitto-action@v1
+        uses: cocogitto/cocogitto-action@v2
 ```
 
 If you are familiar with cocogitto this will run `cog check` and nothing else.
@@ -38,7 +38,7 @@ use this option.
 
 ```yaml
       - name: Conventional commit check
-        uses: oknozor/cocogitto-action@v1
+        uses: cocogitto/cocogitto-action@v2
         with:
           check-latest-tag-only: true
 ```
@@ -63,7 +63,7 @@ You can also use this action to perform releases (calling `cog bump --auto` unde
 
 ```yaml
       - name: Semver release
-        uses: oknozor/cocogitto-action@v1
+        uses: cocogitto/cocogitto-action@v2
         id: release
         with:
           release: true
