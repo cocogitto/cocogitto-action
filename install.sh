@@ -7,6 +7,6 @@ BIN_DIR="$HOME/.local/bin"
 
 mkdir -p "$BIN_DIR"
 cd "$BIN_DIR" || exit
-curl -OL https://github.com/oknozor/cocogitto/releases/download/"$VERSION"/"$TAR"
+curl -OL https://github.com/cocogitto/cocogitto/releases/download/"$VERSION"/"$TAR"
 tar xfz $TAR
 cd "$CUR_DIR" || exit
