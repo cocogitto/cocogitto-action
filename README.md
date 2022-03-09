@@ -1,6 +1,6 @@
 # Cocogitto github action
 
-This action uses [cocogitto](https://github.com/oknozor/cocogitto) to check 
+This action uses [cocogitto](https://github.com/cocogitto/cocogitto) to check 
 your repository is [conventional commit](https://conventionalcommits.org/) and perform auto-release.
 
 ## Requirement
@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 0
 
       - name: Conventional commit check
-        uses: cocogitto/cocogitto-action@v2
+        uses: cocogitto/cocogitto-action@v3
 ```
 
 If you are familiar with cocogitto this will run `cog check` and nothing else.
@@ -38,7 +38,7 @@ use this option.
 
 ```yaml
       - name: Conventional commit check
-        uses: cocogitto/cocogitto-action@v2
+        uses: cocogitto/cocogitto-action@v3
         with:
           check-latest-tag-only: true
 ```
@@ -59,11 +59,11 @@ type 'WIP'.
 ## Performing release
 
 You can also use this action to perform releases (calling `cog bump --auto` under the hood) 
-(see: [cocogitto's auto bump](https://github.com/oknozor/cocogitto#auto-bump)).
+(see: [cocogitto's auto bump](https://github.com/cocogitto/cocogitto#auto-bump)).
 
 ```yaml
       - name: Semver release
-        uses: cocogitto/cocogitto-action@v2
+        uses: cocogitto/cocogitto-action@v3
         id: release
         with:
           release: true
@@ -76,8 +76,8 @@ You can also use this action to perform releases (calling `cog bump --auto` unde
 ```
 
 Note that you probably want to set the `git-user` and `git-user-email` options to override the default the git signature for the release commit. 
-If you are not familiar with how cocogitto perform release, you might want to read the [auto bump](https://github.com/oknozor/cocogitto#auto-bump)
-and [hook](https://github.com/oknozor/cocogitto#auto-bump) sections on cocogitto's documentation.
+If you are not familiar with how cocogitto perform release, you might want to read the [auto bump](https://github.com/cocogitto/cocogitto#auto-bump)
+and [hook](https://github.com/cocogitto/cocogitto#auto-bump) sections on cocogitto's documentation.
 
 ## Post step run
 
