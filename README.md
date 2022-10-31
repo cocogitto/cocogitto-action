@@ -20,9 +20,30 @@ jobs:
     runs-on: ubuntu-latest
     name: check conventional commit compliance
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Conventional commit check
+        uses: cocogitto/cocogitto-action@v3
+```
+
+If you are running your workflow `on: [pull_request]`,
+additional setup for `actions/checkout` is needed to checkout the right commit:
+
+```yaml
+on: [pull_request]
+
+jobs:
+  cog_check_job:
+    runs-on: ubuntu-latest
+    name: check conventional commit compliance
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          # pick the pr HEAD instead of the merge commit
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Conventional commit check
         uses: cocogitto/cocogitto-action@v3
