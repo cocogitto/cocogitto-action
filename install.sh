@@ -1,7 +1,7 @@
 #!/bin/sh
 
 CUR_DIR=$(pwd)
-VERSION=5.2.0
+VERSION=5.3.0
 TAR="cocogitto-$VERSION-x86_64-unknown-linux-musl.tar.gz"
 BIN_DIR="$HOME/.local/bin"
 
