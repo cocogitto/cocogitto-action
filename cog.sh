@@ -17,8 +17,8 @@ git config --global user.email "$GIT_USER_EMAIL"
 
 if [ "$CHECK" = "true" ]; then
   if [ "$LATEST_TAG_ONLY" = "true" ]; then
-    if [ "$(git describe --abbrev=0)" ]; then
-      message="Checking commits from $(git describe --abbrev=0)"
+    if [ "$(git describe --tags --abbrev=0)" ]; then
+      message="Checking commits from $(git describe --tags --abbrev=0)"
     else
       message="No tag found checking history from first commit"
     fi
