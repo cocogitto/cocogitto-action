@@ -100,6 +100,40 @@ Note that you probably want to set the `git-user` and `git-user-email` options t
 If you are not familiar with how cocogitto perform release, you might want to read the [auto bump](https://github.com/cocogitto/cocogitto#auto-bump)
 and [hook](https://github.com/cocogitto/cocogitto#auto-bump) sections on cocogitto's documentation.
 
+
+## Arbitrary String (e.x. PR Title) Verification
+
+You can also use this action to check an arbitrary input string against the conventional commit specification.
+(see: [cocogitto's sandbox](https://docs.cocogitto.io/guide/#sandbox)).
+
+```yaml
+name: Lint Pull Request Title
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - edited
+
+jobs:
+  pr-title:
+    name: Lint PR Title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+  
+      - name: PR Title Check
+        uses: cocogitto/cocogitto-action@v3
+        id: title-lint
+        with:
+          verify: ${{ github.event.pull_request.title }}
+```
+
 ## Post step run
 
 Once the step is finished cocogitto's binary will be available in your path.
@@ -108,15 +142,11 @@ Once the step is finished cocogitto's binary will be available in your path.
 
 Here are all the inputs available through `with`:
 
-| Input                   | Description                                                                | Default    |
-| -------------------     | -------------------------------------------------------------------------- | -------    |
-| `check`                 | Check conventional commit compliance with `cog check`                      |   `true`   |
-| `check-latest-tag-only` | Check conventional commit compliance with `cog check --from-latest-tag`    |   `false`  |
-| `release`               | Perform a release using `cog bump --auto`                                  |   `false`  |
-| `git-user`              | Set the git `user.name` to use for the release commit                      |   `cog-bot`|
-| `git-user-email`        | Set the git `user.email` to use for the release commit                      |  `cog@demo.org`|
-
-
-
-
-
+| Input                   | Description                                                             | Default        |
+|-------------------------|-------------------------------------------------------------------------|----------------|
+| `check`                 | Check conventional commit compliance with `cog check`                   | `true`         |
+| `check-latest-tag-only` | Check conventional commit compliance with `cog check --from-latest-tag` | `false`        |
+| `release`               | Perform a release using `cog bump --auto`                               | `false`        |
+| `git-user`              | Set the git `user.name` to use for the release commit                   | `cog-bot`      |
+| `git-user-email`        | Set the git `user.email` to use for the release commit                  | `cog@demo.org` |
+| `verify`                | Set an arbitrary string value for `cog` to verify                       | `null`         |
