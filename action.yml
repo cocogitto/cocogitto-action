@@ -1,37 +1,50 @@
-name: 'Conventional commit cocogitto action'
-description: 'Check conventional commits compliance and/or automatically release new version'
+---
+name: Conventional commit cocogitto action
+
+description: |
+  Check conventional commits compliance and/or automatically release new version
+
 branding:
-  icon: 'git-commit'
-  color: 'red'
-author: 'Paul Delafosse'
+  icon: git-commit
+  color: red
+
+author: Paul Delafosse
 
 inputs:
   release:
-    description: 'Perform a release with cog bump --auto'
+    description: Perform a release with cog bump --auto
     required: false
     default: 'false'
   check:
-    description: 'Perform a conventional commit check with cog --check'
+    description: Perform a conventional commit check with cog --check
     required: false
     default: 'true'
   check-latest-tag-only:
-    description: 'Check commit history from latest tag to HEAD'
+    description: Check commit history from latest tag to HEAD
     required: false
     default: 'false'
   git-user:
-    description: 'Git user.name configuration'
+    description: Git user.name configuration
     required: false
     default: 'cog-bot'
   git-user-email:
-    description: 'Git user.email configuration'
+    description: Git user.email configuration
     required: false
     default: 'cog@demo.org'
+  verify:
+    description: |-
+      Check an arbitrary input string against the conventional
+      commit specification but do not create any commit.
+    required: false
+    default: 'false'
+
 outputs:
   version:
-    description: "Version released"
+    description: Version released
     value: ${{ steps.cog.outputs.version }}
+
 runs:
-  using: "composite"
+  using: composite
   steps:
     - run: echo Installing cocogitto
       shell: bash
@@ -49,11 +62,12 @@ runs:
         echo "$HOME/.local/bin" >> $GITHUB_PATH
 
     - id: cog
+      shell: bash
       run: |
         ${{ github.action_path }}/cog.sh    \
-        ${{ inputs.check }} \
+        ${{ inputs.check }}                 \
         ${{ inputs.check-latest-tag-only }} \
         ${{ inputs.release }}               \
         ${{ inputs.git-user }}              \
-        ${{ inputs.git-user-email }}
-      shell: bash
+        ${{ inputs.git-user-email }}        \
+        ${{ inputs.verify }}
