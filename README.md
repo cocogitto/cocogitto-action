@@ -6,7 +6,7 @@ your repository is [conventional commit](https://conventionalcommits.org/) and p
 ## Requirement
 
 1. Before running this action you need to call checkout action with `fetch-depth: 0`. This is mandatory, otherwise not all commit 
-will be fetched and cocogitto will fail to execute (see [actions/checkout](https://github.com/actions/checkout#checkout-v2) for more info).
+will be fetched and cocogitto will fail to execute (see [actions/checkout](https://github.com/actions/checkout#checkout-v4) for more info).
 
 2. Cocogitto assumes you are running on a x86 linux runner.
 
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     name: check conventional commit compliance
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     name: check conventional commit compliance
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           # pick the pr HEAD instead of the merge commit
@@ -115,8 +115,3 @@ Here are all the inputs available through `with`:
 | `release`               | Perform a release using `cog bump --auto`                                  |   `false`  |
 | `git-user`              | Set the git `user.name` to use for the release commit                      |   `cog-bot`|
 | `git-user-email`        | Set the git `user.email` to use for the release commit                      |  `cog@demo.org`|
-
-
-
-
-
