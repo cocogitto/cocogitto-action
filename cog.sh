@@ -7,7 +7,7 @@ LATEST_TAG_ONLY="${2}"
 RELEASE="${3}"
 GIT_USER="${4}"
 GIT_USER_EMAIL="${5}"
-VERIFY="${7}"
+VERIFY="${6}"
 
 echo "Setting git user : ${GIT_USER}"
 git config --global user.name "${GIT_USER}"
