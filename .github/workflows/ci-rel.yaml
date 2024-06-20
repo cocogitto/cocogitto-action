@@ -1,0 +1,84 @@
+name: CI cog release
+
+on:
+  workflow_dispatch: {}
+  push: {}
+
+jobs:
+  no-bump-has-prev:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: cocogitto-action
+      - name: Initialise repository
+        run: |
+          git init
+          git config --global user.name 'Mona Lisa'
+          git config --global user.email 'mona.lisa@example.com'
+          git commit --allow-empty -m 'feat: initial'
+          git tag '0.1.0'
+          echo 'cocogitto-action/' > .gitignore
+          echo '# Mona Lisa' > README.md
+          git add README.md .gitignore
+          git commit -m 'chore: add Mona Lisa docs'
+      - name: Run cocogitto-action
+        id: release
+        uses: ./cocogitto-action
+        with:
+          check: false
+          release: true
+      - name: Check outputs
+        run: |
+          [ "${{ steps.release.outputs.version }}" == '0.1.0' ] || exit 1
+          [ -z "${{ steps.release.outputs.bumped }}" ] || exit 1
+  no-bump-no-prev:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: cocogitto-action
+      - name: Initialise repository
+        run: |
+          git init
+          git config --global user.name 'Mona Lisa'
+          git config --global user.email 'mona.lisa@example.com'
+          echo 'cocogitto-action/' > .gitignore
+          echo '# Mona Lisa' > README.md
+          git add README.md .gitignore
+          git commit -m 'chore: add Mona Lisa docs'
+      - name: Run cocogitto-action
+        id: release
+        uses: ./cocogitto-action
+        with:
+          check: false
+          release: true
+      - name: Check outputs
+        run: |
+          [ -z "${{ steps.release.outputs.version }}" ] || exit 1
+          [ -z "${{ steps.release.outputs.bumped }}" ] || exit 1
+  bump-no-prev:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: cocogitto-action
+      - name: Initialise repository
+        run: |
+          git init
+          git config --global user.name 'Mona Lisa'
+          git config --global user.email 'mona.lisa@example.com'
+          echo 'cocogitto-action/' > .gitignore
+          echo '# Mona Lisa' > README.md
+          git add README.md .gitignore
+          git commit -m 'feat: add Mona Lisa docs'
+      - name: Run cocogitto-action
+        id: release
+        uses: ./cocogitto-action
+        with:
+          check: false
+          release: true
+      - name: Check outputs
+        run: |
+          [ "${{ steps.release.outputs.version }}" == '0.1.0' ] || exit 1
+          [ "${{ steps.release.outputs.bumped }}" == 'true' ] || exit 1

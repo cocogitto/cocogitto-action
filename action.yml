@@ -40,8 +40,11 @@ inputs:
 
 outputs:
   version:
-    description: Version released
+    description: Released version or previous version if not bumped.
     value: ${{ steps.cog.outputs.version }}
+  bumped:
+    description: Indicates if the version was bumped.
+    value: ${{ steps.cog.outputs.bumped }}
 
 runs:
   using: composite
