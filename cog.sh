@@ -17,15 +17,17 @@ git config --global user.email "${GIT_USER_EMAIL}"
 
 cog --version
 
-if [ "${CHECK}" = "true" ]; then
-  if [ "${LATEST_TAG_ONLY}" = "true" ]; then
-    if [ "$(git describe --tags --abbrev=0)" ]; then
-      message="Checking commits from $(git describe --tags --abbrev=0)"
+CURRENT_VERSION=$(cog get-version 2>/dev/null || echo '')
+
+if [ "${CHECK}" = 'true' ]; then
+  if [ "${LATEST_TAG_ONLY}" = 'true' ]; then
+    if [ -n "${CURRENT_VERSION}" ]; then
+      echo "Checking commits from ${CURRENT_VERSION}"
+      cog check --from-latest-tag || exit 1
     else
-      message="No tag found checking history from first commit"
+      echo 'No tag found checking history from first commit'
+      cog check || exit 1
     fi
-    echo "${message}"
-    cog check --from-latest-tag || exit 1
   else
     echo "Checking all commits"
     cog check || exit 1

@@ -1,0 +1,135 @@
+name: CI cog check
+
+on:
+  workflow_dispatch: {}
+  push: {}
+
+jobs:
+  all-success:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: cocogitto-action
+      - name: Initialise repository
+        run: |
+          git init
+          git config --global user.name 'Mona Lisa'
+          git config --global user.email 'mona.lisa@example.com'
+          echo 'cocogitto-action/' > .gitignore
+          echo '# Mona Lisa' > README.md
+          git add README.md .gitignore
+          git commit -m 'chore: add Mona Lisa docs'
+      - name: Run cocogitto-action
+        id: cog1
+        uses: ./cocogitto-action
+        continue-on-error: true
+        with:
+          check: true
+          check-latest-tag-only: false
+          release: false
+      - name: Checks
+        run: |
+          [ "${{ steps.cog1.outcome }}" == 'success' ] || exit 1
+  all-failure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: cocogitto-action
+      - name: Initialise repository
+        run: |
+          git init
+          git config --global user.name 'Mona Lisa'
+          git config --global user.email 'mona.lisa@example.com'
+          echo 'cocogitto-action/' > .gitignore
+          echo '# Mona Lisa' > README.md
+          git add README.md .gitignore
+          git commit -m 'add Mona Lisa docs'
+      - name: Run cocogitto-action
+        id: cog1
+        uses: ./cocogitto-action
+        continue-on-error: true
+        with:
+          check: true
+          check-latest-tag-only: false
+          release: false
+      - name: Checks
+        run: |
+          [ "${{ steps.cog1.outcome }}" == 'failure' ] || exit 1
+  only-last-has-last:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: cocogitto-action
+      - name: Initialise repository
+        run: |
+          git init
+          git config --global user.name 'Mona Lisa'
+          git config --global user.email 'mona.lisa@example.com'
+          echo 'cocogitto-action/' > .gitignore
+          echo '# Mona Lisa' > README.md
+          git add README.md .gitignore
+          git commit -m 'add Mona Lisa docs'
+          git tag '0.1.0'
+          git commit --allow-empty -m 'feat: new cool feature'
+      - name: Run cocogitto-action
+        id: cog1
+        uses: ./cocogitto-action
+        continue-on-error: true
+        with:
+          check: true
+          check-latest-tag-only: true
+          release: false
+      - run: |
+          git commit --allow-empty -m 'wrong commit format'
+      - name: Run cocogitto-action
+        id: cog2
+        uses: ./cocogitto-action
+        continue-on-error: true
+        with:
+          check: true
+          check-latest-tag-only: true
+          release: false
+      - name: Checks
+        run: |
+          [ "${{ steps.cog1.outcome }}" == 'success' ] || exit 1
+          [ "${{ steps.cog2.outcome }}" == 'failure' ] || exit 1
+  only-last-no-last:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: cocogitto-action
+      - name: Initialise repository
+        run: |
+          git init
+          git config --global user.name 'Mona Lisa'
+          git config --global user.email 'mona.lisa@example.com'
+          echo 'cocogitto-action/' > .gitignore
+          echo '# Mona Lisa' > README.md
+          git add README.md .gitignore
+          git commit -m 'chore: add Mona Lisa docs'
+      - name: Run cocogitto-action
+        id: cog1
+        uses: ./cocogitto-action
+        continue-on-error: true
+        with:
+          check: true
+          check-latest-tag-only: true
+          release: false
+      - run: |
+          git commit --allow-empty -m 'wrong commit format'
+      - name: Run cocogitto-action
+        id: cog2
+        uses: ./cocogitto-action
+        continue-on-error: true
+        with:
+          check: true
+          check-latest-tag-only: true
+          release: false
+      - name: Checks
+        run: |
+          [ "${{ steps.cog1.outcome }}" == 'success' ] || exit 1
+          [ "${{ steps.cog2.outcome }}" == 'failure' ] || exit 1

@@ -54,8 +54,8 @@ If you are familiar with cocogitto this will run `cog check` and nothing else.
 ## Check commits since latest tag 
 
 In some case you might want to perform check only since the latest tagged version.
-If your repository has not always been conventional commits compliant, then you probably want to 
-use this option. 
+If your repository has not always been conventional commits compliant,
+then you probably want to use this option. 
 
 ```yaml
       - name: Conventional commit check
@@ -76,6 +76,8 @@ Let us assume the following git history :
 Using `check-latest-tag-only: true` here would make cocogitto check for the two commits made since
 tag `0.1.0`, the action would fail on *HEAD* which contains the non-conventional commit
 type 'WIP'.
+
+In case there's no existing tags, the action will fall back to `cog check`.
 
 ## Performing release
 
@@ -110,8 +112,8 @@ Here are all the inputs available through `with`:
 
 | Input                   | Description                                                                | Default    |
 | -------------------     | -------------------------------------------------------------------------- | -------    |
-| `check`                 | Check conventional commit compliance with `cog check`                      |   `true`   |
-| `check-latest-tag-only` | Check conventional commit compliance with `cog check --from-latest-tag`    |   `false`  |
-| `release`               | Perform a release using `cog bump --auto`                                  |   `false`  |
-| `git-user`              | Set the git `user.name` to use for the release commit                      |   `cog-bot`|
-| `git-user-email`        | Set the git `user.email` to use for the release commit                      |  `cog@demo.org`|
+| `check`                 | Check conventional commit compliance with `cog check`                      | `true`   |
+| `check-latest-tag-only` | Check conventional commit compliance with `cog check --from-latest-tag`    | `false`  |
+| `release`               | Perform a release using `cog bump --auto`                                  | `false`  |
+| `git-user`              | Set the git `user.name` to use for the release commit                      | `cog-bot`|
+| `git-user-email`        | Set the git `user.email` to use for the release commit                     | `cog@demo.org`|
