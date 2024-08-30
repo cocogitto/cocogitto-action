@@ -112,6 +112,7 @@ Here are all the inputs available through `with`:
 | -------------------     | -------------------------------------------------------------------------- | -------    |
 | `check`                 | Check conventional commit compliance with `cog check`                      |   `true`   |
 | `check-latest-tag-only` | Check conventional commit compliance with `cog check --from-latest-tag`    |   `false`  |
+| `ignore-merge-commits`  | Ignore merge commits with `cog check --ignore-merge-commits`               |   `false`  |
 | `release`               | Perform a release using `cog bump --auto`                                  |   `false`  |
 | `git-user`              | Set the git `user.name` to use for the release commit                      |   `cog-bot`|
 | `git-user-email`        | Set the git `user.email` to use for the release commit                      |  `cog@demo.org`|

@@ -23,6 +23,10 @@ inputs:
     description: Check commit history from latest tag to HEAD
     required: false
     default: 'false'
+  ignore-merge-commits:
+    description: Ignore merge commits when checking commit history
+    required: false
+    default: 'false'
   git-user:
     description: Git user.name configuration
     required: false
@@ -70,4 +74,5 @@ runs:
         ${{ inputs.release }}               \
         ${{ inputs.git-user }}              \
         ${{ inputs.git-user-email }}        \
-        ${{ inputs.verify }}
+        ${{ inputs.verify }}                \
+        ${{ inputs.ignore-merge-commits }}
