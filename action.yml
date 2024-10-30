@@ -37,6 +37,10 @@ inputs:
       commit specification but do not create any commit.
     required: false
     default: 'false'
+  profile:
+    description: Specify the bump profil to use for release
+    required: false
+    default: ''
 
 outputs:
   version:
@@ -70,4 +74,7 @@ runs:
         ${{ inputs.release }}               \
         ${{ inputs.git-user }}              \
         ${{ inputs.git-user-email }}        \
-        ${{ inputs.verify }}
+        ${{ inputs.verify }}                \
+        ${{ inputs.profile }}
+
+        

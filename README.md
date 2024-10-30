@@ -108,10 +108,12 @@ Once the step is finished cocogitto's binary will be available in your path.
 
 Here are all the inputs available through `with`:
 
-| Input                   | Description                                                                | Default    |
-| -------------------     | -------------------------------------------------------------------------- | -------    |
-| `check`                 | Check conventional commit compliance with `cog check`                      |   `true`   |
-| `check-latest-tag-only` | Check conventional commit compliance with `cog check --from-latest-tag`    |   `false`  |
-| `release`               | Perform a release using `cog bump --auto`                                  |   `false`  |
-| `git-user`              | Set the git `user.name` to use for the release commit                      |   `cog-bot`|
-| `git-user-email`        | Set the git `user.email` to use for the release commit                      |  `cog@demo.org`|
+| Input                   | Description                                                                                      | Default        |
+|-------------------------|--------------------------------------------------------------------------------------------------|----------------|
+| `check`                 | Check conventional commit compliance with `cog check`                                            | `true`         |
+| `check-latest-tag-only` | Check conventional commit compliance with `cog check --from-latest-tag`                          | `false`        |
+| `release`               | Perform a release using `cog bump --auto`                                                        | `false`        |
+| `git-user`              | Set the git `user.name` to use for the release commit                                            | `cog-bot`      |
+| `git-user-email`        | Set the git `user.email` to use for the release commit                                           | `cog@demo.org` |
+| `verify`                | Check a string input against the conventional commit specification but do not create any commit. | `false`        |
+| `profile`               | Specify the bump profil to use for release                                                       | null           |
