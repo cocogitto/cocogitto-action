@@ -8,7 +8,8 @@ RELEASE="${3}"
 GIT_USER="${4}"
 GIT_USER_EMAIL="${5}"
 VERIFY="${6}"
-IGNORE_MERGE_COMMITs="${7}"
+PROFILE="${7}"
+IGNORE_MERGE_COMMITs="${8}"
 
 echo "Setting git user : ${GIT_USER}"
 git config --global user.name "${GIT_USER}"
@@ -37,8 +38,13 @@ if [ "${CHECK}" = "true" ]; then
   cog check $flags || exit 1
 fi
 
-if [ "${RELEASE}" = "true" ]; then
-  cog bump --auto || exit 1
+if [ "$RELEASE" = "true" ]; then
+  if [ "$PROFILE" != '' ]; then
+    echo "profile=${PROFILE}"
+    cog bump --auto -H $PROFILE || exit 1
+  else
+    cog bump --auto || exit 1
+  fi
   VERSION="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
   echo "version=$VERSION" >> $GITHUB_OUTPUT
 fi
