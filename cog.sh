@@ -9,6 +9,7 @@ GIT_USER="${4}"
 GIT_USER_EMAIL="${5}"
 VERIFY="${6}"
 PROFILE="${7}"
+PACKAGE="${8}"
 
 echo "Setting git user : ${GIT_USER}"
 git config --global user.name "${GIT_USER}"
@@ -34,16 +35,25 @@ if [ "${CHECK}" = "true" ]; then
 fi
 
 if [ "$RELEASE" = "true" ]; then
-  if [ "$PROFILE" != '' ]; then
-    echo "profile=${PROFILE}"
-    cog bump --auto -H $PROFILE || exit 1
+  if [ "$PACKAGE" != '' ]; then
+    if [ "$PROFILE" != '' ]; then
+      echo "packge=${PACKAGE} profile=${PROFILE}"
+      cog bump --auto -H $PROFILE --package $PACKAGE || exit 1
+    else
+      cog bump --auto --package $PACKAGE || exit 1
+    fi
   else
-    cog bump --auto || exit 1
+    if [ "$PROFILE" != '' ]; then
+      echo "profile=${PROFILE}"
+      cog bump --auto -H $PROFILE || exit 1
+    else
+      cog bump --auto || exit 1
+    fi
   fi
   VERSION="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
-  echo "version=$VERSION" >> $GITHUB_OUTPUT
+  echo "version=$VERSION" >>$GITHUB_OUTPUT
 fi
 
-if ( echo "${VERIFY}" | grep -Eiv '^([01]|(true)|(false))$' > /dev/null ) ; then
+if (echo "${VERIFY}" | grep -Eiv '^([01]|(true)|(false))$' >/dev/null); then
   cog verify "${VERIFY}" || exit 1
 fi

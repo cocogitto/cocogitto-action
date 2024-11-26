@@ -41,6 +41,10 @@ inputs:
     description: Specify the bump profil to use for release
     required: false
     default: ''
+  package:
+    description: Specify which package to use for release
+    required: false
+    default: ''
 
 outputs:
   version:
@@ -75,6 +79,5 @@ runs:
         ${{ inputs.git-user }}              \
         ${{ inputs.git-user-email }}        \
         ${{ inputs.verify }}                \
-        ${{ inputs.profile }}
-
-        
+        ${{ inputs.profile }}               \
+        ${{ inputs.package }}
