@@ -1,16 +1,16 @@
 # Cocogitto github action
 
-This action uses [cocogitto](https://github.com/cocogitto/cocogitto) to check 
+This action uses [cocogitto](https://github.com/cocogitto/cocogitto) to check
 your repository is [conventional commit](https://conventionalcommits.org/) and perform auto-release.
 
 ## Requirement
 
-1. Before running this action you need to call checkout action with `fetch-depth: 0`. This is mandatory, otherwise not all commit 
+1. Before running this action you need to call checkout action with `fetch-depth: 0`. This is mandatory, otherwise not all commit
 will be fetched and cocogitto will fail to execute (see [actions/checkout](https://github.com/actions/checkout#checkout-v4) for more info).
 
 2. Cocogitto assumes you are running on a x86 linux runner.
 
-## Example 
+## Example
 
 ```yaml
 on: [push]
@@ -51,11 +51,11 @@ jobs:
 
 If you are familiar with cocogitto this will run `cog check` and nothing else.
 
-## Check commits since latest tag 
+## Check commits since latest tag
 
 In some case you might want to perform check only since the latest tagged version.
-If your repository has not always been conventional commits compliant, then you probably want to 
-use this option. 
+If your repository has not always been conventional commits compliant, then you probably want to
+use this option.
 
 ```yaml
       - name: Conventional commit check
@@ -64,7 +64,7 @@ use this option.
           check-latest-tag-only: true
 ```
 
-Let us assume the following git history : 
+Let us assume the following git history :
 
 ```
 * 9b609bc - (HEAD -> main) WIP: feat unfinished work
@@ -79,7 +79,7 @@ type 'WIP'.
 
 ## Performing release
 
-You can also use this action to perform releases (calling `cog bump --auto` under the hood) 
+You can also use this action to perform releases (calling `cog bump --auto` under the hood)
 (see: [cocogitto's auto bump](https://github.com/cocogitto/cocogitto#auto-bump)).
 
 ```yaml
@@ -96,7 +96,7 @@ You can also use this action to perform releases (calling `cog bump --auto` unde
         run: "echo '${{ steps.release.outputs.version }}'"
 ```
 
-Note that you probably want to set the `git-user` and `git-user-email` options to override the default the git signature for the release commit. 
+Note that you probably want to set the `git-user` and `git-user-email` options to override the default the git signature for the release commit.
 If you are not familiar with how cocogitto perform release, you might want to read the [auto bump](https://github.com/cocogitto/cocogitto#auto-bump)
 and [hook](https://github.com/cocogitto/cocogitto#auto-bump) sections on cocogitto's documentation.
 
@@ -104,7 +104,7 @@ and [hook](https://github.com/cocogitto/cocogitto#auto-bump) sections on cocogit
 
 Once the step is finished cocogitto's binary will be available in your path.
 
-##  Reference 
+##  Reference
 
 Here are all the inputs available through `with`:
 
@@ -117,3 +117,4 @@ Here are all the inputs available through `with`:
 | `git-user-email`        | Set the git `user.email` to use for the release commit                                           | `cog@demo.org` |
 | `verify`                | Check a string input against the conventional commit specification but do not create any commit. | `false`        |
 | `profile`               | Specify the bump profil to use for release                                                       | null           |
+| `package`               | Specify which package to use for release                                                         | null           |
