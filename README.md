@@ -118,3 +118,4 @@ Here are all the inputs available through `with`:
 | `verify`                | Check a string input against the conventional commit specification but do not create any commit. | `false`        |
 | `profile`               | Specify the bump profil to use for release                                                       | null           |
 | `package`               | Specify which package to use for release                                                         | null           |
+| `dry-run`               | Perform a release using `cog bump --auto --dry-run`                                              | `false`        |

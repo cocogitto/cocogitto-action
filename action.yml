@@ -45,6 +45,10 @@ inputs:
     description: Specify which package to use for release
     required: false
     default: ''
+  dry-run:
+    description: Perform a release dry run
+    required: false
+    default: 'false'
 
 outputs:
   version:
@@ -80,4 +84,5 @@ runs:
         ${{ inputs.git-user-email }}        \
         ${{ inputs.verify }}                \
         ${{ inputs.profile }}               \
-        ${{ inputs.package }}
+        ${{ inputs.package }}               \
+        ${{ inputs.dry-run }}                
