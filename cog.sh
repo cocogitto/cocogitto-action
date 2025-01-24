@@ -8,9 +8,9 @@ RELEASE="${3}"
 GIT_USER="${4}"
 GIT_USER_EMAIL="${5}"
 VERIFY="${6}"
-PROFILE="${7}"
-PACKAGE="${8}"
-DRY_RUN="${9}"
+DRY_RUN="${7}"
+PROFILE="${8}"
+PACKAGE="${9}"
 
 echo "Setting git user : ${GIT_USER}"
 git config --global user.name "${GIT_USER}"
@@ -56,22 +56,9 @@ if [ "$RELEASE" = "true" ]; then
 fi
 
 if [ "$DRY_RUN" = "true" ]; then
-  if [ "$PACKAGE" != '' ]; then
-    if [ "$PROFILE" != '' ]; then
-      echo "packge=${PACKAGE} profile=${PROFILE}"
-      cog bump --auto -H $PROFILE --package $PACKAGE --dry-run|| exit 1
-    else
-      cog bump --auto --package $PACKAGE --dry-run|| exit 1
-    fi
-  else
-    if [ "$PROFILE" != '' ]; then
-      echo "profile=${PROFILE}"
-      cog bump --auto -H $PROFILE --dry-run || exit 1
-    else
+  echo "dry run"
       cog bump --auto  --dry-run|| exit 1
-    fi
-  fi
-  VERSION="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
+  VERSION="$(cog bump --auto  --dry-run)"
   echo "version=$VERSION" >>$GITHUB_OUTPUT
 fi
 

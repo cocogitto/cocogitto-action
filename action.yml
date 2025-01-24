@@ -37,6 +37,10 @@ inputs:
       commit specification but do not create any commit.
     required: false
     default: 'false'
+  dry-run:
+    description: Perform a release dry run
+    required: false
+    default: 'false'
   profile:
     description: Specify the bump profil to use for release
     required: false
@@ -45,10 +49,6 @@ inputs:
     description: Specify which package to use for release
     required: false
     default: ''
-  dry-run:
-    description: Perform a release dry run
-    required: false
-    default: 'false'
 
 outputs:
   version:
@@ -83,6 +83,6 @@ runs:
         ${{ inputs.git-user }}              \
         ${{ inputs.git-user-email }}        \
         ${{ inputs.verify }}                \
+        ${{ inputs.dry-run }}               \ 
         ${{ inputs.profile }}               \
         ${{ inputs.package }}               \
-        ${{ inputs.dry-run }}                
