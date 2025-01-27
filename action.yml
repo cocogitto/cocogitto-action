@@ -76,13 +76,13 @@ runs:
     - id: cog
       shell: bash
       run: |
-        ${{ github.action_path }}/cog.sh    \
-        ${{ inputs.check }}                 \
-        ${{ inputs.check-latest-tag-only }} \
-        ${{ inputs.release }}               \
-        ${{ inputs.git-user }}              \
-        ${{ inputs.git-user-email }}        \
-        ${{ inputs.verify }}                \
-        ${{ inputs.dry-run }}               \ 
-        ${{ inputs.profile }}               \
-        ${{ inputs.package }}               \
+        ${{ github.action_path }}/cog.sh \
+        "${{ inputs.check }}" \
+        "${{ inputs.check-latest-tag-only }}" \
+        "${{ inputs.release }}" \
+        "${{ inputs.git-user }}" \
+        "${{ inputs.git-user-email }}" \
+        "${{ inputs.verify }}" \
+        "${{ inputs.dry-run }}" \
+        "${{ inputs.package }}" \
+        "${{ inputs.profile }}"

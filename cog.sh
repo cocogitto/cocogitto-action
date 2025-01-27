@@ -9,8 +9,8 @@ GIT_USER="${4}"
 GIT_USER_EMAIL="${5}"
 VERIFY="${6}"
 DRY_RUN="${7}"
-PROFILE="${8}"
-PACKAGE="${9}"
+PACKAGE="${8}"
+PROFILE="${9}"
 
 echo "Setting git user : ${GIT_USER}"
 git config --global user.name "${GIT_USER}"
@@ -42,19 +42,19 @@ fi
 
 if [ "$DRY_RUN" = "true" ]; then
   echo "dry run"
-  echo "a'${PROFILE}'a"
-  if [ "${PROFILE}" != ' ' ]; then
+  if [ "${PROFILE}" != '' ]; then
     echo "WARNING: bump profiles are ignored in dry run"
   fi
-      cog bump --auto  --dry-run|| exit 1
+  cog bump --auto  --dry-run || exit 1
   VERSION="$(cog bump --auto  --dry-run)"
   echo "version=$VERSION" >>$GITHUB_OUTPUT
 fi
 
 if [ "$RELEASE" = "true" ]; then
   if [ "$PACKAGE" != '' ]; then
+      echo "packge=${PACKAGE}"
     if [ "$PROFILE" != '' ]; then
-      echo "packge=${PACKAGE} profile=${PROFILE}"
+      echo "profile=${PROFILE}"
       cog bump --auto -H $PROFILE --package $PACKAGE || exit 1
     else
       cog bump --auto --package $PACKAGE || exit 1
