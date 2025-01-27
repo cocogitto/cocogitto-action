@@ -35,6 +35,22 @@ if [ "${CHECK}" = "true" ]; then
   fi
 fi
 
+if [ "$RELEASE" = "true" ] && [ "$DRY_RUN" = "true" ]; then
+    echo "ERROR: Impossible to release and dry run at the same time."
+    exit 1
+fi
+
+if [ "$DRY_RUN" = "true" ]; then
+  echo "dry run"
+  echo "a'${PROFILE}'a"
+  if [ "${PROFILE}" != ' ' ]; then
+    echo "WARNING: bump profiles are ignored in dry run"
+  fi
+      cog bump --auto  --dry-run|| exit 1
+  VERSION="$(cog bump --auto  --dry-run)"
+  echo "version=$VERSION" >>$GITHUB_OUTPUT
+fi
+
 if [ "$RELEASE" = "true" ]; then
   if [ "$PACKAGE" != '' ]; then
     if [ "$PROFILE" != '' ]; then
@@ -52,13 +68,6 @@ if [ "$RELEASE" = "true" ]; then
     fi
   fi
   VERSION="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
-  echo "version=$VERSION" >>$GITHUB_OUTPUT
-fi
-
-if [ "$DRY_RUN" = "true" ]; then
-  echo "dry run"
-      cog bump --auto  --dry-run|| exit 1
-  VERSION="$(cog bump --auto  --dry-run)"
   echo "version=$VERSION" >>$GITHUB_OUTPUT
 fi
 
