@@ -62,7 +62,7 @@ runs:
       shell: bash
 
     - id: install
-      run: ${{ github.action_path }}/install.sh
+      run: ${GITHUB_ACTION_PATH}/install.sh
       shell: bash
 
     - run: echo Running cocogitto
@@ -76,7 +76,7 @@ runs:
     - id: cog
       shell: bash
       run: |
-        ${{ github.action_path }}/cog.sh \
+        ${GITHUB_ACTION_PATH}/cog.sh \
         "${{ inputs.check }}" \
         "${{ inputs.check-latest-tag-only }}" \
         "${{ inputs.release }}" \
