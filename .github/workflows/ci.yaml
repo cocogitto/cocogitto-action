@@ -20,3 +20,21 @@ jobs:
           git commit -m "docs: add Mona Lisa docs"
       - name: Run cocogitto-action
         uses: ./cocogitto-action
+  test-container:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/actions/actions-runner:latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: cocogitto-action
+      - name: Initialise repository
+        run: |
+          git init
+          echo "# Mona Lisa" > README.md
+          git config --global user.name "Mona Lisa"
+          git config --global user.email "mona.lisa@example.com"
+          git add README.md
+          git commit -m "docs: add Mona Lisa docs"
+      - name: Run cocogitto-action
+        uses: ./cocogitto-action
