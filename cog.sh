@@ -11,6 +11,8 @@ VERIFY="${6}"
 DRY_RUN="${7}"
 PACKAGE="${8}"
 PROFILE="${9}"
+IGNORE_MERGE_COMMITS="${10}"
+IGNORE_FIXUP_COMMITS="${11}"
 
 echo "Setting git user : ${GIT_USER}"
 git config --global user.name "${GIT_USER}"
@@ -21,18 +23,30 @@ git config --global user.email "${GIT_USER_EMAIL}"
 cog --version
 
 if [ "${CHECK}" = "true" ]; then
+  CHECK_ARGS=""
+  CHECK_MESSAGE="Checking all commits"
+
+  if [ "${IGNORE_MERGE_COMMITS}" = "true" ]; then
+    CHECK_ARGS="${CHECK_ARGS} --ignore-merge-commits"
+    echo "Ignoring merge commits"
+  fi
+
+  if [ "${IGNORE_FIXUP_COMMITS}" = "true" ]; then
+    CHECK_ARGS="${CHECK_ARGS} --ignore-fixup-commits"
+    echo "Ignoring fixup commits"
+  fi
+
   if [ "${LATEST_TAG_ONLY}" = "true" ]; then
     if [ "$(git describe --tags --abbrev=0)" ]; then
-      message="Checking commits from $(git describe --tags --abbrev=0)"
+      CHECK_MESSAGE="Checking commits from $(git describe --tags --abbrev=0)"
     else
-      message="No tag found checking history from first commit"
+      CHECK_MESSAGE="No tag found checking history from first commit"
     fi
-    echo "${message}"
-    cog check --from-latest-tag || exit 1
-  else
-    echo "Checking all commits"
-    cog check || exit 1
+    CHECK_ARGS="${CHECK_ARGS} --from-latest-tag"
   fi
+
+  echo "${CHECK_MESSAGE}"
+  cog check ${CHECK_ARGS} || exit 1
 fi
 
 if [ "$RELEASE" = "true" ] && [ "$DRY_RUN" = "true" ]; then

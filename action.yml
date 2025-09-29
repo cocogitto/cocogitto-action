@@ -14,41 +14,49 @@ inputs:
   release:
     description: Perform a release with cog bump --auto
     required: false
-    default: 'false'
+    default: "false"
   check:
     description: Perform a conventional commit check with cog --check
     required: false
-    default: 'true'
+    default: "true"
   check-latest-tag-only:
     description: Check commit history from latest tag to HEAD
     required: false
-    default: 'false'
+    default: "false"
   git-user:
     description: Git user.name configuration
     required: false
-    default: 'cog-bot'
+    default: "cog-bot"
   git-user-email:
     description: Git user.email configuration
     required: false
-    default: 'cog@demo.org'
+    default: "cog@demo.org"
   verify:
     description: |-
       Check an arbitrary input string against the conventional
       commit specification but do not create any commit.
     required: false
-    default: 'false'
+    default: "false"
   dry-run:
     description: Perform a release dry run
     required: false
-    default: 'false'
+    default: "false"
   profile:
     description: Specify the bump profil to use for release
     required: false
-    default: ''
+    default: ""
   package:
     description: Specify which package to use for release
     required: false
-    default: ''
+    default: ""
+  ignore-merge-commits:
+    description: Ignore merge commits when checking commit history
+    required: false
+    default: "false"
+  ignore-fixup-commits:
+    description: Ignore fixup commits when checking commit history
+    required: false
+    default: "false"
 
 outputs:
   version:
@@ -85,4 +93,6 @@ runs:
         "${{ inputs.verify }}" \
         "${{ inputs.dry-run }}" \
         "${{ inputs.package }}" \
-        "${{ inputs.profile }}"
+        "${{ inputs.profile }}" \
+        "${{ inputs.ignore-merge-commits }}" \
+        "${{ inputs.ignore-fixup-commits }}"

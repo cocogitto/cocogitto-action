@@ -6,7 +6,7 @@ your repository is [conventional commit](https://conventionalcommits.org/) and p
 ## Requirement
 
 1. Before running this action you need to call checkout action with `fetch-depth: 0`. This is mandatory, otherwise not all commit
-will be fetched and cocogitto will fail to execute (see [actions/checkout](https://github.com/actions/checkout#checkout-v4) for more info).
+   will be fetched and cocogitto will fail to execute (see [actions/checkout](https://github.com/actions/checkout#checkout-v4) for more info).
 
 2. Cocogitto assumes you are running on a x86 linux runner.
 
@@ -58,10 +58,10 @@ If your repository has not always been conventional commits compliant, then you 
 use this option.
 
 ```yaml
-      - name: Conventional commit check
-        uses: cocogitto/cocogitto-action@v3
-        with:
-          check-latest-tag-only: true
+- name: Conventional commit check
+  uses: cocogitto/cocogitto-action@v3
+  with:
+    check-latest-tag-only: true
 ```
 
 Let us assume the following git history :
@@ -74,7 +74,7 @@ Let us assume the following git history :
 ```
 
 Using `check-latest-tag-only: true` here would make cocogitto check for the two commits made since
-tag `0.1.0`, the action would fail on *HEAD* which contains the non-conventional commit
+tag `0.1.0`, the action would fail on _HEAD_ which contains the non-conventional commit
 type 'WIP'.
 
 ## Performing release
@@ -83,17 +83,17 @@ You can also use this action to perform releases (calling `cog bump --auto` unde
 (see: [cocogitto's auto bump](https://github.com/cocogitto/cocogitto#auto-bump)).
 
 ```yaml
-      - name: Semver release
-        uses: cocogitto/cocogitto-action@v3
-        id: release
-        with:
-          release: true
-          git-user: 'Cog Bot'
-          git-user-email: 'mycoolproject@org.org'
+- name: Semver release
+  uses: cocogitto/cocogitto-action@v3
+  id: release
+  with:
+    release: true
+    git-user: "Cog Bot"
+    git-user-email: "mycoolproject@org.org"
 
-      # The version number is accessible as a github action output
-      - name: Print version
-        run: "echo '${{ steps.release.outputs.version }}'"
+# The version number is accessible as a github action output
+- name: Print version
+  run: "echo '${{ steps.release.outputs.version }}'"
 ```
 
 Note that you probably want to set the `git-user` and `git-user-email` options to override the default the git signature for the release commit.
@@ -104,14 +104,16 @@ and [hook](https://github.com/cocogitto/cocogitto#auto-bump) sections on cocogit
 
 Once the step is finished cocogitto's binary will be available in your path.
 
-##  Reference
+## Reference
 
 Here are all the inputs available through `with`:
 
 | Input                   | Description                                                                                      | Default        |
-|-------------------------|--------------------------------------------------------------------------------------------------|----------------|
+| ----------------------- | ------------------------------------------------------------------------------------------------ | -------------- |
 | `check`                 | Check conventional commit compliance with `cog check`                                            | `true`         |
 | `check-latest-tag-only` | Check conventional commit compliance with `cog check --from-latest-tag`                          | `false`        |
+| `ignore-merge-commits`  | Check conventional commit compliance with `cog check --ignore-merge-commits`                     | `false`        |
+| `ignore-fixup-commits`  | Check conventional commit compliance with `cog check --ignore-fixup-commits`                     | `false`        |
 | `release`               | Perform a release using `cog bump --auto`                                                        | `false`        |
 | `git-user`              | Set the git `user.name` to use for the release commit                                            | `cog-bot`      |
 | `git-user-email`        | Set the git `user.email` to use for the release commit                                           | `cog@demo.org` |
