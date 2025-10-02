@@ -43,7 +43,7 @@ if [ "$RELEASE" = "true" ] && [ "$DRY_RUN" = "true" ]; then
     exit 1
 fi
 
-OLD_VERSION="$(cog get-version || echo "0.0.0")"
+OLD_VERSION="v$(cog get-version || echo "0.0.0")"
 echo "Old version: $OLD_VERSION"
 echo "old_version=$OLD_VERSION" >> "$GITHUB_OUTPUT"
 
