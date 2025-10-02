@@ -43,9 +43,12 @@ if [ "$RELEASE" = "true" ] && [ "$DRY_RUN" = "true" ]; then
     exit 1
 fi
 
-OLD_VERSION="v$(cog get-version || echo "0.0.0")"
+OLD_VERSION="v$(cog get-version 2>/dev/null || echo "0.0.0")"
 echo "Old version: $OLD_VERSION"
 echo "old_version=$OLD_VERSION" >> "$GITHUB_OUTPUT"
+
+# Initialize VERSION variable
+VERSION=""
 
 if [ "$DRY_RUN" = "true" ]; then
   echo "dry run"
@@ -79,11 +82,21 @@ if [ "$RELEASE" = "true" ]; then
 fi
 
 if [ ! -z "${VERSION}" ]; then
-    CHANGELOG="$(cog changelog ${OLD_VERSION}..${VERSION})"
-    printf "Changelog: \n\n%s" "${CHANGELOG}"
-    echo "changelog<<EOF" >>"$GITHUB_OUTPUT"
-    echo "${CHANGELOG}" >>"$GITHUB_OUTPUT"
-    echo "EOF" >>"$GITHUB_OUTPUT"
+    # Generate changelog only if we have a valid old version (not the default 0.0.0)
+    if [ "${OLD_VERSION}" != "0.0.0" ]; then
+        CHANGELOG="$(cog changelog ${OLD_VERSION}..${VERSION})"
+        printf "Changelog: \n\n%s" "${CHANGELOG}"
+        echo "changelog<<EOF" >>"$GITHUB_OUTPUT"
+        echo "${CHANGELOG}" >>"$GITHUB_OUTPUT"
+        echo "EOF" >>"$GITHUB_OUTPUT"
+    else
+        # For first release, generate changelog from beginning
+        CHANGELOG="$(cog changelog --at ${VERSION} 2>/dev/null || cog changelog)"
+        printf "Changelog: \n\n%s" "${CHANGELOG}"
+        echo "changelog<<EOF" >>"$GITHUB_OUTPUT"
+        echo "${CHANGELOG}" >>"$GITHUB_OUTPUT"
+        echo "EOF" >>"$GITHUB_OUTPUT"
+    fi
 fi
 
 if (echo "${VERIFY}" | grep -Eiv '^([01]|(true)|(false))$' >/dev/null); then

@@ -1,0 +1,227 @@
+name: Comprehensive CI Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # Basic validation job - keeps the original simple test
+  basic-test:
+    runs-on: ubuntu-latest
+    name: Basic functionality test
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: cocogitto-action
+          fetch-depth: 0
+
+      - name: Initialize basic test repository
+        run: |
+          git init
+          echo "# Basic Test" > README.md
+          git config --global user.name "Test User"
+          git config --global user.email "test@example.com"
+          git add README.md
+          git commit -m "feat: add basic test documentation"
+
+      - name: Run cocogitto-action (basic test)
+        uses: ./cocogitto-action
+        with:
+          check: true
+          release: false
+
+  # Comprehensive matrix-based testing
+  comprehensive-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        scenario:
+          - name: "no-commits-since-tag"
+            description: "Repository with conventional commits but no commits since last version tag"
+            script: "scenario-a.sh"
+          - name: "tag-on-current"
+            description: "Repository where the last version tag is on the current commit"
+            script: "scenario-b.sh"
+          - name: "tag-before-current"
+            description: "Repository where the last version tag is before the current commit"
+            script: "scenario-c.sh"
+
+    name: Test ${{ matrix.scenario.name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: cocogitto-action
+          fetch-depth: 0
+
+      - name: Make scripts executable
+        run: |
+          chmod +x cocogitto-action/.github/scripts/*.sh
+          chmod +x cocogitto-action/.github/scripts/test-scenarios/*.sh
+
+      - name: Set up test environment
+        run: |
+          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+          echo "RUNNER_TEMP=$RUNNER_TEMP" >> $GITHUB_ENV
+          mkdir -p "$RUNNER_TEMP/test-repos"
+
+      - name: Run scenario test - ${{ matrix.scenario.description }}
+        run: |
+          echo "Testing scenario: ${{ matrix.scenario.name }}"
+          echo "Description: ${{ matrix.scenario.description }}"
+          bash "cocogitto-action/.github/scripts/test-scenarios/${{ matrix.scenario.script }}"
+
+      - name: Display test results
+        if: always()
+        run: |
+          echo "=== Test Results for ${{ matrix.scenario.name }} ==="
+          if [[ -d "$RUNNER_TEMP/test-repos" ]]; then
+            find "$RUNNER_TEMP/test-repos" -name "github_output.txt" -exec echo "Output file: {}" \; -exec cat {} \; || true
+          fi
+
+  # Additional edge case testing
+  edge-case-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        test_case:
+          - name: "mixed-commits"
+            description: "Repository with mixed conventional and non-conventional commits"
+            should_fail: true
+          - name: "no-tags"
+            description: "Repository with conventional commits but no version tags"
+            should_fail: false
+          - name: "dry-run"
+            description: "Test dry-run functionality"
+            should_fail: false
+
+    name: Edge case - ${{ matrix.test_case.name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: cocogitto-action
+          fetch-depth: 0
+
+      - name: Make scripts executable
+        run: |
+          chmod +x cocogitto-action/.github/scripts/*.sh
+
+      - name: Set up test environment
+        run: |
+          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+          echo "RUNNER_TEMP=$RUNNER_TEMP" >> $GITHUB_ENV
+          mkdir -p "$RUNNER_TEMP/test-repos/edge-case-${{ matrix.test_case.name }}"
+
+      - name: Setup test repository for ${{ matrix.test_case.name }}
+        run: |
+          TEST_DIR="$RUNNER_TEMP/test-repos/edge-case-${{ matrix.test_case.name }}"
+          bash "cocogitto-action/.github/scripts/setup-test-repo.sh" "${{ matrix.test_case.name }}" "$TEST_DIR"
+
+      - name: Test ${{ matrix.test_case.description }}
+        run: |
+          TEST_DIR="$RUNNER_TEMP/test-repos/edge-case-${{ matrix.test_case.name }}"
+          cd "$TEST_DIR"
+          
+          export GITHUB_OUTPUT="$RUNNER_TEMP/github_output_edge_case_${{ matrix.test_case.name }}.txt"
+          export GITHUB_ACTION_PATH="$GITHUB_WORKSPACE/cocogitto-action"
+          
+          # Install cocogitto first
+          bash "$GITHUB_ACTION_PATH/install.sh"
+          export PATH="$HOME/.local/bin:$PATH"
+          
+          echo "Testing: ${{ matrix.test_case.description }}"
+          
+          # Configure test parameters based on test case
+          case "${{ matrix.test_case.name }}" in
+            "mixed-commits")
+              # This should fail with check=true due to non-conventional commits
+              set +e
+              bash "$GITHUB_ACTION_PATH/cog.sh" "true" "false" "false" "Test Bot" "test@example.com" "false" "false" "" ""
+              EXIT_CODE=$?
+              set -e
+              if [[ $EXIT_CODE -ne 0 ]]; then
+                echo "✓ Mixed commits test failed as expected"
+              else
+                echo "✗ Mixed commits test should have failed but didn't"
+                exit 1
+              fi
+              ;;
+            "no-tags")
+              # This should work with release=true, creating first release
+              bash "$GITHUB_ACTION_PATH/cog.sh" "false" "false" "true" "Test Bot" "test@example.com" "false" "false" "" ""
+              echo "✓ No tags test completed"
+              ;;
+            "dry-run")
+              # This should work with dry-run=true
+              bash "$GITHUB_ACTION_PATH/cog.sh" "false" "false" "false" "Test Bot" "test@example.com" "false" "true" "" ""
+              echo "✓ Dry run test completed"
+              ;;
+          esac
+
+      - name: Validate edge case results
+        if: always()
+        run: |
+          TEST_DIR="$RUNNER_TEMP/test-repos/edge-case-${{ matrix.test_case.name }}"
+          bash "cocogitto-action/.github/scripts/validate-outputs.sh" "${{ matrix.test_case.name }}" "$TEST_DIR" "edge-case"
+
+  # Container-based testing (similar to original)
+  container-test:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/actions/actions-runner:latest
+    name: Container-based test
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: cocogitto-action
+          fetch-depth: 0
+
+      - name: Initialize container test repository
+        run: |
+          git init
+          echo "# Container Test" > README.md
+          git config --global user.name "Container User"
+          git config --global user.email "container@example.com"
+          git add README.md
+          git commit -m "feat: add container test documentation"
+
+      - name: Run cocogitto-action in container
+        uses: ./cocogitto-action
+        with:
+          check: true
+          release: false
+
+  # Summary job that depends on all tests
+  test-summary:
+    runs-on: ubuntu-latest
+    needs: [basic-test, comprehensive-test, edge-case-test, container-test]
+    if: always()
+    name: Test Summary
+    steps:
+      - name: Check test results
+        run: |
+          echo "=== Test Summary ==="
+          echo "Basic test: ${{ needs.basic-test.result }}"
+          echo "Comprehensive tests: ${{ needs.comprehensive-test.result }}"
+          echo "Edge case tests: ${{ needs.edge-case-test.result }}"
+          echo "Container test: ${{ needs.container-test.result }}"
+          
+          # Fail if any critical tests failed
+          if [[ "${{ needs.basic-test.result }}" != "success" ]]; then
+            echo "❌ Basic test failed"
+            exit 1
+          fi
+          
+          if [[ "${{ needs.comprehensive-test.result }}" != "success" ]]; then
+            echo "❌ Comprehensive tests failed"
+            exit 1
+          fi
+          
+          if [[ "${{ needs.container-test.result }}" != "success" ]]; then
+            echo "❌ Container test failed"
+            exit 1
+          fi
+          
+          echo "✅ All critical tests passed!"

@@ -19,7 +19,7 @@ jobs:
           git config --global user.name "Mona Lisa"
           git config --global user.email "mona.lisa@example.com"
           git add README.md
-          git commit -m "docs: add Mona Lisa docs"
+          git commit -m "feat: add Mona Lisa docs"
       - name: Run cocogitto-action
         uses: ./cocogitto-action
   test-container:
@@ -37,6 +37,6 @@ jobs:
           git config --global user.name "Mona Lisa"
           git config --global user.email "mona.lisa@example.com"
           git add README.md
-          git commit -m "docs: add Mona Lisa docs"
+          git commit -m "feat: add Mona Lisa docs"
       - name: Run cocogitto-action
         uses: ./cocogitto-action
