@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -a
 
@@ -11,6 +11,9 @@ VERIFY="${6}"
 DRY_RUN="${7}"
 PACKAGE="${8}"
 PROFILE="${9}"
+
+set -x
+set -euo pipefail
 
 echo "Setting git user : ${GIT_USER}"
 git config --global user.name "${GIT_USER}"
