@@ -66,7 +66,7 @@ use this option.
 
 Let us assume the following git history :
 
-```
+```text
 * 9b609bc - (HEAD -> main) WIP: feat unfinished work
 * d832ca4 - feat: working on feature A
 * d5ce110 - (tag: 0.1.0) chore: release 0.1.0
@@ -100,6 +100,20 @@ Note that you probably want to set the `git-user` and `git-user-email` options t
 If you are not familiar with how cocogitto perform release, you might want to read the [auto bump](https://github.com/cocogitto/cocogitto#auto-bump)
 and [hook](https://github.com/cocogitto/cocogitto#auto-bump) sections on cocogitto's documentation.
 
+## Using additional arguments
+
+You can pass additional arguments to `cocogitto bump` via `additional-args-bump` input. This is useful for passing flags like `--skip-ci`:
+
+```yaml
+      - name: Semver release with skip CI
+        uses: cocogitto/cocogitto-action@v3
+        with:
+          release: true
+          git-user: 'Cog Bot'
+          git-user-email: 'mycoolproject@org.org'
+          additional-args-bump: '--skip-ci'
+```
+
 ## Post step run
 
 Once the step is finished cocogitto's binary will be available in your path.
@@ -109,7 +123,7 @@ Once the step is finished cocogitto's binary will be available in your path.
 Here are all the inputs available through `with`:
 
 | Input                   | Description                                                                                      | Default        |
-|-------------------------|--------------------------------------------------------------------------------------------------|----------------|
+| ----------------------- | ------------------------------------------------------------------------------------------------ | -------------- |
 | `check`                 | Check conventional commit compliance with `cog check`                                            | `true`         |
 | `check-latest-tag-only` | Check conventional commit compliance with `cog check --from-latest-tag`                          | `false`        |
 | `release`               | Perform a release using `cog bump --auto`                                                        | `false`        |
@@ -119,3 +133,4 @@ Here are all the inputs available through `with`:
 | `profile`               | Specify the bump profil to use for release                                                       | null           |
 | `package`               | Specify which package to use for release                                                         | null           |
 | `dry-run`               | Perform a release using `cog bump --auto --dry-run`                                              | `false`        |
+| `additional-args-bump`  | Additional arguments to pass to cog bump commands (e.g., `--skip-ci`)                            | `''`           |

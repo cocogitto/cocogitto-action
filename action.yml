@@ -49,6 +49,10 @@ inputs:
     description: Specify which package to use for release
     required: false
     default: ''
+  additional-args-bump:
+    description: Additional arguments to pass to cog bump commands (e.g., '--skip-ci')
+    required: false
+    default: ''
 
 outputs:
   version:
@@ -91,4 +95,5 @@ runs:
         "${{ inputs.verify }}" \
         "${{ inputs.dry-run }}" \
         "${{ inputs.package }}" \
-        "${{ inputs.profile }}"
+        "${{ inputs.profile }}" \
+        "${{ inputs.additional-args-bump }}"

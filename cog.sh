@@ -11,6 +11,7 @@ VERIFY="${6}"
 DRY_RUN="${7}"
 PACKAGE="${8}"
 PROFILE="${9}"
+ADDITIONAL_ARGS_BUMP="${10}"
 
 set -x
 set -euo pipefail
@@ -55,8 +56,8 @@ if [ "$DRY_RUN" = "true" ]; then
   if [ "${PROFILE}" != '' ]; then
     echo "WARNING: bump profiles are ignored in dry run"
   fi
-  cog bump --auto  --dry-run || exit 1
-  VERSION="$(cog bump --auto  --dry-run)"
+  cog bump --auto --dry-run ${ADDITIONAL_ARGS_BUMP} || exit 1
+  VERSION="$(cog bump --auto --dry-run ${ADDITIONAL_ARGS_BUMP})"
   echo "version=$VERSION" >>$GITHUB_OUTPUT
 fi
 
@@ -65,16 +66,16 @@ if [ "$RELEASE" = "true" ]; then
       echo "packge=${PACKAGE}"
     if [ "$PROFILE" != '' ]; then
       echo "profile=${PROFILE}"
-      cog bump --auto -H $PROFILE --package $PACKAGE || exit 1
+      cog bump --auto -H $PROFILE --package $PACKAGE ${ADDITIONAL_ARGS_BUMP} || exit 1
     else
-      cog bump --auto --package $PACKAGE || exit 1
+      cog bump --auto --package $PACKAGE ${ADDITIONAL_ARGS_BUMP} || exit 1
     fi
   else
     if [ "$PROFILE" != '' ]; then
       echo "profile=${PROFILE}"
-      cog bump --auto -H $PROFILE || exit 1
+      cog bump --auto -H $PROFILE ${ADDITIONAL_ARGS_BUMP} || exit 1
     else
-      cog bump --auto || exit 1
+      cog bump --auto ${ADDITIONAL_ARGS_BUMP} || exit 1
     fi
   fi
   VERSION="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
