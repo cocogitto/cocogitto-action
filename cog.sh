@@ -40,6 +40,10 @@ if [ "$RELEASE" = "true" ] && [ "$DRY_RUN" = "true" ]; then
     exit 1
 fi
 
+OLD_VERSION="$(cog get-version || echo "0.0.0")"
+echo "Old version: $OLD_VERSION"
+echo "old_version=$OLD_VERSION" >> "$GITHUB_OUTPUT"
+
 if [ "$DRY_RUN" = "true" ]; then
   echo "dry run"
   if [ "${PROFILE}" != '' ]; then
@@ -69,6 +73,14 @@ if [ "$RELEASE" = "true" ]; then
   fi
   VERSION="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
   echo "version=$VERSION" >>$GITHUB_OUTPUT
+fi
+
+if [ ! -z "${VERSION}" ]; then
+    CHANGELOG="$(cog changelog ${OLD_VERSION}..${VERSION})"
+    printf "Changelog: \n\n%s" "${CHANGELOG}"
+    echo "changelog<<EOF" >>"$GITHUB_OUTPUT"
+    echo "${CHANGELOG}" >>"$GITHUB_OUTPUT"
+    echo "EOF" >>"$GITHUB_OUTPUT"
 fi
 
 if (echo "${VERIFY}" | grep -Eiv '^([01]|(true)|(false))$' >/dev/null); then

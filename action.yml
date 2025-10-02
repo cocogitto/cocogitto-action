@@ -54,6 +54,12 @@ outputs:
   version:
     description: Version released
     value: ${{ steps.cog.outputs.version }}
+  old_version:
+    description: Old version
+    value: ${{ steps.cog.outputs.old_version }}
+  changelog:
+    description: Generated changelog
+    value: ${{ steps.cog.outputs.changelog }}
 
 runs:
   using: composite
