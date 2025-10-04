@@ -64,7 +64,7 @@ fi
 
 if [ "$RELEASE" = "true" ]; then
   if [ "$PACKAGE" != '' ]; then
-      echo "packge=${PACKAGE}"
+      echo "package=${PACKAGE}"
     if [ "$PROFILE" != '' ]; then
       echo "profile=${PROFILE}"
       cog bump --auto -H $PROFILE --package $PACKAGE ${ADDITIONAL_ARGS_BUMP} || exit 1
