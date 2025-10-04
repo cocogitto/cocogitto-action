@@ -53,6 +53,10 @@ inputs:
     description: Additional arguments to pass to cog bump commands (e.g., '--skip-ci')
     required: false
     default: ''
+  tag-prefix:
+    description: Tag prefix to use, should match tag_prefix setting value (default '')
+    required: false
+    default: ''
 
 outputs:
   version:
@@ -96,4 +100,5 @@ runs:
         "${{ inputs.dry-run }}" \
         "${{ inputs.package }}" \
         "${{ inputs.profile }}" \
-        "${{ inputs.additional-args-bump }}"
+        "${{ inputs.additional-args-bump }}" \
+        "${{ inputs.tag-prefix }}"

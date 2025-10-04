@@ -12,6 +12,7 @@ DRY_RUN="${7}"
 PACKAGE="${8}"
 PROFILE="${9}"
 ADDITIONAL_ARGS_BUMP="${10}"
+TAG_PREFIX="${11:-}"
 
 set -x
 set -euo pipefail
@@ -44,7 +45,7 @@ if [ "$RELEASE" = "true" ] && [ "$DRY_RUN" = "true" ]; then
     exit 1
 fi
 
-OLD_VERSION="v$(cog get-version 2>/dev/null || echo "0.0.0")"
+OLD_VERSION="${TAG_PREFIX}$(cog get-version --fallback 0.0.0 2>/dev/null)"
 echo "Old version: $OLD_VERSION"
 echo "old_version=$OLD_VERSION" >> "$GITHUB_OUTPUT"
 
@@ -78,13 +79,13 @@ if [ "$RELEASE" = "true" ]; then
       cog bump --auto ${ADDITIONAL_ARGS_BUMP} || exit 1
     fi
   fi
-  VERSION="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
+  VERSION="${TAG_PREFIX}$(git describe --tags "$(git rev-list --tags --max-count=1)")"
   echo "version=$VERSION" >>$GITHUB_OUTPUT
 fi
 
 if [ ! -z "${VERSION}" ]; then
     # Generate changelog only if we have a valid old version (not the default 0.0.0)
-    if [ "${OLD_VERSION}" != "0.0.0" ]; then
+    if [ "${OLD_VERSION}" != "${TAG_PREFIX}0.0.0" ]; then
         CHANGELOG="$(cog changelog ${OLD_VERSION}..${VERSION})"
         printf "Changelog: \n\n%s" "${CHANGELOG}"
         echo "changelog<<EOF" >>"$GITHUB_OUTPUT"
