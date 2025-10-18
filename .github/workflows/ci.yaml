@@ -22,8 +22,19 @@ jobs:
           git commit -m "docs: add Mona Lisa docs"
       - name: Run cocogitto-action
         uses: ./cocogitto-action
+        id: cog-check
         with:
           command: check
+
+      - run: echo "${{ steps.cog-check.outputs.stdout }}"
+
+      - uses: ./cocogitto-action
+        id: cog-changelog
+        with:
+          command: changelog
+
+      - run: echo "${{ steps.cog-changelog.outputs.stdout }}"
+
   test-container:
     runs-on: ubuntu-latest
     container:
@@ -42,5 +53,15 @@ jobs:
           git commit -m "docs: add Mona Lisa docs"
       - name: Run cocogitto-action
         uses: ./cocogitto-action
+        id: cog-check
         with:
           command: check
+
+      - run: echo "${{ steps.cog-check.outputs.stdout }}"
+
+      - uses: ./cocogitto-action
+        id: cog-changelog
+        with:
+          command: changelog
+
+      - run: echo "${{ steps.cog-changelog.outputs.stdout }}"

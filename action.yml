@@ -31,6 +31,9 @@ outputs:
   version:
     description: Version released
     value: ${{ steps.cog.outputs.version }}
+  stdout:
+    description: Generated changelog
+    value: ${{ steps.cog.outputs.stdout }}
 
 runs:
   using: composite
