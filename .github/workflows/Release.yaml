@@ -1,4 +1,4 @@
-name: Release
+name: Autobump
 
 on:
   workflow_dispatch:
