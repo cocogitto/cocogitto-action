@@ -22,6 +22,8 @@ jobs:
           git commit -m "docs: add Mona Lisa docs"
       - name: Run cocogitto-action
         uses: ./cocogitto-action
+        with:
+          command: check
   test-container:
     runs-on: ubuntu-latest
     container:
@@ -40,3 +42,5 @@ jobs:
           git commit -m "docs: add Mona Lisa docs"
       - name: Run cocogitto-action
         uses: ./cocogitto-action
+        with:
+          command: check

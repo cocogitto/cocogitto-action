@@ -25,7 +25,9 @@ jobs:
           fetch-depth: 0
 
       - name: Conventional commit check
-        uses: cocogitto/cocogitto-action@v3
+        uses: cocogitto/cocogitto-action@v4
+        with:
+          command: check
 ```
 
 If you are running your workflow `on: [pull_request]`,
@@ -46,10 +48,10 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Conventional commit check
-        uses: cocogitto/cocogitto-action@v3
+        uses: cocogitto/cocogitto-action@v4
+        with:
+          command: check
 ```
-
-If you are familiar with cocogitto this will run `cog check` and nothing else.
 
 ## Check commits since latest tag
 
@@ -59,9 +61,10 @@ use this option.
 
 ```yaml
       - name: Conventional commit check
-        uses: cocogitto/cocogitto-action@v3
+        uses: cocogitto/cocogitto-action@v4
         with:
-          check-latest-tag-only: true
+          command: check
+          args: --from-latest-tag
 ```
 
 Let us assume the following git history :
@@ -73,7 +76,7 @@ Let us assume the following git history :
 * 8f25a4b - chore: a commit before tag 0.1.0
 ```
 
-Using `check-latest-tag-only: true` here would make cocogitto check for the two commits made since
+Using `args: --from-latest-tag` here would make cocogitto check for the two commits made since
 tag `0.1.0`, the action would fail on *HEAD* which contains the non-conventional commit
 type 'WIP'.
 
@@ -84,10 +87,11 @@ You can also use this action to perform releases (calling `cog bump --auto` unde
 
 ```yaml
       - name: Semver release
-        uses: cocogitto/cocogitto-action@v3
+        uses: cocogitto/cocogitto-action@v4
         id: release
         with:
-          release: true
+          command: bump
+          args: --auto
           git-user: 'Cog Bot'
           git-user-email: 'mycoolproject@org.org'
 
@@ -108,14 +112,7 @@ Once the step is finished cocogitto's binary will be available in your path.
 
 Here are all the inputs available through `with`:
 
-| Input                   | Description                                                                                      | Default        |
-|-------------------------|--------------------------------------------------------------------------------------------------|----------------|
-| `check`                 | Check conventional commit compliance with `cog check`                                            | `true`         |
-| `check-latest-tag-only` | Check conventional commit compliance with `cog check --from-latest-tag`                          | `false`        |
-| `release`               | Perform a release using `cog bump --auto`                                                        | `false`        |
-| `git-user`              | Set the git `user.name` to use for the release commit                                            | `cog-bot`      |
-| `git-user-email`        | Set the git `user.email` to use for the release commit                                           | `cog@demo.org` |
-| `verify`                | Check a string input against the conventional commit specification but do not create any commit. | `false`        |
-| `profile`               | Specify the bump profil to use for release                                                       | null           |
-| `package`               | Specify which package to use for release                                                         | null           |
-| `dry-run`               | Perform a release using `cog bump --auto --dry-run`                                              | `false`        |
+| Input       | Description                                                                                      | Default        |
+|-------------|--------------------------------------------------------------------------------------------------|----------------|
+| `command`   | The cocogitto command to run (e.g., check, release)                                             | (required)     |
+| `args`      | Additional arguments for the cocogitto command                                                  | `""`           |
