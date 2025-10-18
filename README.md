@@ -5,10 +5,8 @@ your repository is [conventional commit](https://conventionalcommits.org/) and p
 
 ## Requirement
 
-1. Before running this action you need to call checkout action with `fetch-depth: 0`. This is mandatory, otherwise not all commit
+Before running this action you need to call checkout action with `fetch-depth: 0`. This is mandatory, otherwise not all commit
 will be fetched and cocogitto will fail to execute (see [actions/checkout](https://github.com/actions/checkout#checkout-v4) for more info).
-
-2. Cocogitto assumes you are running on a x86 linux runner.
 
 ## Example
 
