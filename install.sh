@@ -1,12 +1,11 @@
 #!/bin/sh
 
 CUR_DIR=$(pwd)
-VERSION=6.3.0
+VERSION=6.4.0
 BIN_DIR="$HOME/.local/bin"
 
 PLATFORM=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
-
 
 case $PLATFORM in
     linux|darwin|mingw*)
@@ -40,5 +39,9 @@ echo "Downloading cocogitto version $VERSION for $ARCH-$PLATFORM from https://gi
 mkdir -p "$BIN_DIR"
 cd "$BIN_DIR" || exit
 curl -OL https://github.com/cocogitto/cocogitto/releases/download/"$VERSION"/"$TAR"
-tar --strip-components=1 -xzf $TAR "$ARCH-$PLATFORM/cog"
+if [ "$PLATFORM" = "pc-windows-msvc" ]; then
+    tar --strip-components=1 -xzf $TAR "$ARCH-$PLATFORM/cog.exe"
+else
+    tar --strip-components=1 -xzf $TAR "$ARCH-$PLATFORM/cog"
+fi
 cd "$CUR_DIR" || exit
