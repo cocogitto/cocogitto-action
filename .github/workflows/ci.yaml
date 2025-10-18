@@ -35,6 +35,16 @@ jobs:
 
       - run: echo "${{ steps.cog-changelog.outputs.stdout }}"
 
+      - uses: ./cocogitto-action
+        id: invalid-step
+        with:
+          command: invalid
+        continue-on-error: true
+
+      - name: Assert action errored
+        if: steps.invalid-step.outcome == 'failure'
+        run: echo "Action errored as expected"
+
   test-container:
     runs-on: ubuntu-latest
     container:
@@ -65,3 +75,13 @@ jobs:
           command: changelog
 
       - run: echo "${{ steps.cog-changelog.outputs.stdout }}"
+
+      - uses: ./cocogitto-action
+        id: invalid-step
+        with:
+          command: invalid
+        continue-on-error: true
+
+      - name: Assert action errored
+        if: steps.invalid-step.outcome == 'failure'
+        run: echo "Action errored as expected"
