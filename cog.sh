@@ -22,6 +22,9 @@ fi
 
 echo "Running command: cog $COMMAND $ARGS"
 stdout="$(cog $COMMAND $ARGS 2>&1)"
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 echo $stdout
 echo "stdout<<EOF" >> "$GITHUB_OUTPUT"
 echo "$stdout" >> "$GITHUB_OUTPUT"
