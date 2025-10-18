@@ -1,0 +1,32 @@
+name: Publish latest
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "*"
+
+jobs:
+  create_release:
+    name: Publish release
+    runs-on: ubuntu-latest
+    if: ${{ github.ref_type == 'tag' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: SemVer release
+        id: release
+        uses: cocogitto/cocogitto-action@main
+        with:
+          command: changelog
+          args: --at ${{ github.ref_name }}
+
+      - name: Upload github release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: ${{ steps.release.outputs.stdout }}
+          name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}

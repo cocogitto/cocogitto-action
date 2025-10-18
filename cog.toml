@@ -4,9 +4,9 @@ ignore_merge_commits = true
 ignore_fixup_commits = true
 
 post_bump_hooks = [
-    # "git push",
-    # "git push origin {{version_tag}}",
-    # "./replace-major.sh {{version_tag}}",
+     "git push",
+     "git push origin {{version_tag}}",
+     "./major.sh {{version_tag}}",
 ]
 
 [commit_types]
