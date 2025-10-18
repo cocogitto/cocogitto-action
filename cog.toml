@@ -1,1 +1,36 @@
 tag_prefix = "v"
+branch_whitelist = ["main"]
+ignore_merge_commits = true
+ignore_fixup_commits = true
+
+post_bump_hooks = [
+    # "git push",
+    # "git push origin {{version_tag}}",
+    # "./replace-major.sh {{version_tag}}",
+]
+
+[commit_types]
+chore = { omit_from_changelog = true }
+
+[changelog]
+template = "remote"
+remote = "github.com"
+repository = "cocogitto-action"
+owner = "cocogitto"
+authors = [
+    { signature = "Paul Delafosse", username = "oknozor" },
+    { signature = "Joshua Clayton", username = "joshua-clayton" },
+    { signature = "sergejomon", username = "sergejomon" },
+    { signature = "Dennis Witt", username = "wittdennis" },
+    { signature = "Guillaume Gayot", username = "sergejomon" },
+    { signature = "Oliver Radwell", username = "oradwell" },
+    { signature = "Mark S", username = "the-wondersmith" },
+    { signature = "Serge", username = "sergejomon" },
+    { signature = "Ben Nagy", username = "nagyben" },
+    { signature = "Vincent Tavernier", username = "vtavernier" },
+    { signature = "Luke Hsiao", username = "lukehsiao" },
+    { signature = "Stephen Connolly", username = "stepenc" },
+    { signature = "Marcin Puc", username = "tranzystorekk" },
+    { signature = "Paul Stemmet", username = "bazaah" },
+    { signature = "Matthias Behr", username = "mbehr1 " }
+]
