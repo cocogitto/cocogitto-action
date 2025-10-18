@@ -9,6 +9,27 @@
 - add a workflow_dispatch option - ([605a53a](https://github.com/cocogitto/cocogitto-action/commit/605a53a0082b10e4887a9264d34ecae2ed568ea9)) - [@joshua-clayton](https://github.com/joshua-clayton)
 
 - - -
+## [v4.0.0](https://github.com/cocogitto/cocogitto-action/compare/455b4fa07e14a0dc0d8706a93827fa7a0dffcfa7..v4.0.0) - 2025-10-18
+#### Features
+- update cocogitto to 6.4.0 - ([6040da4](https://github.com/cocogitto/cocogitto-action/commit/6040da42faa133b5ca4b113d02a3ed7bb1cb1fa1)) - [@oknozor](https://github.com/oknozor)
+- add multiplatform support - ([9759a01](https://github.com/cocogitto/cocogitto-action/commit/9759a010b12220484ca2587076112490eae29780)) - [@oknozor](https://github.com/oknozor)
+- ![BREAKING](https://img.shields.io/badge/BREAKING-red) pass any cog command or arg to the action - ([455b4fa](https://github.com/cocogitto/cocogitto-action/commit/455b4fa07e14a0dc0d8706a93827fa7a0dffcfa7)) - [@oknozor](https://github.com/oknozor)
+#### Bug Fixes
+- ci fails as expected. reverting - ([f23869c](https://github.com/cocogitto/cocogitto-action/commit/f23869c46f29c2b80f2b4ce27c027822dad5442f)) - [@oknozor](https://github.com/oknozor)
+- handle non zero exit - ([5d42669](https://github.com/cocogitto/cocogitto-action/commit/5d42669cb217d83db9beff137db391cd160d6597)) - [@oknozor](https://github.com/oknozor)
+#### Documentation
+- update readme with changelog example - ([cc9722d](https://github.com/cocogitto/cocogitto-action/commit/cc9722d2ff4c6eb84ba23597810f9c851bc5b014)) - [@oknozor](https://github.com/oknozor)
+- add CHANGELOG.md - ([404fd09](https://github.com/cocogitto/cocogitto-action/commit/404fd09f5a3abe3b97a3a4e7ab090c157cff25fc)) - [@oknozor](https://github.com/oknozor)
+#### Tests
+- add multiarch test matrix - ([11ce4d0](https://github.com/cocogitto/cocogitto-action/commit/11ce4d01d17f736cef30790cd23a3a31ea710517)) - [@oknozor](https://github.com/oknozor)
+- assert action fail on non zero exit - ([bdb5be6](https://github.com/cocogitto/cocogitto-action/commit/bdb5be6d1244463fe882660b18e580b96d57b61b)) - [@oknozor](https://github.com/oknozor)
+#### Continuous Integration
+- update github output - ([a8bf926](https://github.com/cocogitto/cocogitto-action/commit/a8bf926e7d94fb0fe86c926e3432ab2a8abd56f0)) - [@oknozor](https://github.com/oknozor)
+- setup cog.toml - ([6447b5e](https://github.com/cocogitto/cocogitto-action/commit/6447b5edf585b4271736c89898a75ae3a98939d5)) - [@oknozor](https://github.com/oknozor)
+- add cog and Release action - ([6370513](https://github.com/cocogitto/cocogitto-action/commit/637051360be41e9289ebfab71e42ca9919b1b93f)) - [@oknozor](https://github.com/oknozor)
+
+- - -
+
 
 ## [v3.10.0](https://github.com/cocogitto/cocogitto-action/compare/v3.9.0..v3.10.0) - 2025-10-18
 #### Features
