@@ -102,6 +102,45 @@ Note that you probably want to set the `git-user` and `git-user-email` options t
 If you are not familiar with how cocogitto perform release, you might want to read the [auto bump](https://github.com/cocogitto/cocogitto#auto-bump)
 and [hook](https://github.com/cocogitto/cocogitto#auto-bump) sections on cocogitto's documentation.
 
+## Generating a Changelog
+
+You can also use this action to generate a changelog for your releases.
+
+Here's an example of how to set up a GitHub Actions workflow to generate a changelog when a new tag is pushed:
+
+```yaml
+name: Create Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  create_release:
+    name: Publish release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: SemVer release
+        id: release
+        uses: cocogitto/cocogitto-action@main
+        with:
+          command: changelog
+          args: --at ${{ github.ref_name }}
+
+      - name: Upload github release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: ${{ steps.release.outputs.stdout }}
+          tag_name: ${{ github.ref_name }}
+```
+
+In this example, the workflow is triggered on a push event when a new tag matching the pattern `v*.*.*` is created. The `cocogitto-action` is used to generate a changelog for the release, and the `softprops/action-gh-release` action is used to create a GitHub release with the generated changelog as the release body.
+
 ## Post step run
 
 Once the step is finished cocogitto's binary will be available in your path.
@@ -114,3 +153,10 @@ Here are all the inputs available through `with`:
 |-------------|--------------------------------------------------------------------------------------------------|----------------|
 | `command`   | The cocogitto command to run (e.g., check, release)                                             | (required)     |
 | `args`      | Additional arguments for the cocogitto command                                                  | `""`           |
+
+The following outputs are available through the GitHub `steps.<step_id>.outputs` context:
+
+| Output      | Description                                                                                      | Default        |
+|-------------|--------------------------------------------------------------------------------------------------|----------------|
+| `version`   | The new version number after a successful release                                                | `""`           |
+| `stdout`    | The standard output from the cocogitto command                                                   | `""`           |
