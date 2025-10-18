@@ -17,4 +17,4 @@ jobs:
         uses: cocogitto/cocogitto-action@main
         with:
           command: bump
-          args: --check-latest-tag
+          args: --auto
