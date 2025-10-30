@@ -32,5 +32,5 @@ echo "EOF" >> "$GITHUB_OUTPUT"
 
 if [ "$COMMAND" = "release" ] || [ "$COMMAND" = "bump" ]; then
   VERSION="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
-  echo "version=$VERSION" >>$GITHUB_OUTPUT
+  echo "version=$VERSION" >>"$GITHUB_OUTPUT"
 fi
