@@ -22,13 +22,14 @@ fi
 
 echo "Running command: cog $COMMAND $ARGS"
 stdout="$(cog $COMMAND $ARGS 2>&1)"
-if [ $? -ne 0 ]; then
-  exit 1
-fi
-echo $stdout
-echo "stdout<<EOF" >> "$GITHUB_OUTPUT"
-echo "$stdout" >> "$GITHUB_OUTPUT"
-echo "EOF" >> "$GITHUB_OUTPUT"
+exit_code=$?
+{
+  echo "stdout<<EOF"
+  echo "$stdout"
+  echo "EOF"
+} >> "$GITHUB_OUTPUT"
+echo "$stdout"
+[ $exit_code -ne 0 ] && exit $exit_code
 
 if [ "$COMMAND" = "release" ] || [ "$COMMAND" = "bump" ]; then
   VERSION="$(git describe --tags "$(git rev-list --tags --max-count=1)")"
