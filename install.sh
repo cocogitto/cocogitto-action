@@ -1,7 +1,7 @@
 #!/bin/sh
 
 CUR_DIR=$(pwd)
-VERSION=6.4.0
+. "$(dirname "$0")/version.env"
 BIN_DIR="$HOME/.local/bin"
 
 PLATFORM=$(uname -s | tr '[:upper:]' '[:lower:]')
