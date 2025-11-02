@@ -9,6 +9,18 @@
 - add a workflow_dispatch option - ([605a53a](https://github.com/cocogitto/cocogitto-action/commit/605a53a0082b10e4887a9264d34ecae2ed568ea9)) - [@joshua-clayton](https://github.com/joshua-clayton)
 
 - - -
+## [v4.1.0](https://github.com/cocogitto/cocogitto-action/compare/35451fc3148a21a1138c90a5ee7c1591a27c3fed..v4.1.0) - 2025-11-02
+#### Features
+- update cocogitto to 6.5.0 - ([42183d2](https://github.com/cocogitto/cocogitto-action/commit/42183d2af77737e0b172fa6202d3764162feebb8)) - [@oknozor](https://github.com/oknozor)
+- automatically release on new cocogitto release - ([9b6199f](https://github.com/cocogitto/cocogitto-action/commit/9b6199f556c395b02908cbfa5866ac01ccd812aa)) - [@oknozor](https://github.com/oknozor)
+#### Bug Fixes
+- fix github user in auto-release - ([f9bdfc4](https://github.com/cocogitto/cocogitto-action/commit/f9bdfc412b07d0ac39ceb950abacb8cc66284b72)) - [@oknozor](https://github.com/oknozor)
+- non-zero exit code hides command output - ([6fbda0a](https://github.com/cocogitto/cocogitto-action/commit/6fbda0ad0ef174e7c3b014efd7426b9d2773bfa4)) - Nicolas Goudry
+- shellcheck SC2086 - ([6c8c505](https://github.com/cocogitto/cocogitto-action/commit/6c8c505e3ee7781a9d0feef3836b9bc604d0f475)) - Nicolas Goudry
+- typo - ([35451fc](https://github.com/cocogitto/cocogitto-action/commit/35451fc3148a21a1138c90a5ee7c1591a27c3fed)) - Nicolas Goudry
+
+- - -
+
 ## [v4.0.0](https://github.com/cocogitto/cocogitto-action/compare/455b4fa07e14a0dc0d8706a93827fa7a0dffcfa7..v4.0.0) - 2025-10-18
 #### Features
 - update cocogitto to 6.4.0 - ([6040da4](https://github.com/cocogitto/cocogitto-action/commit/6040da42faa133b5ca4b113d02a3ed7bb1cb1fa1)) - [@oknozor](https://github.com/oknozor)
