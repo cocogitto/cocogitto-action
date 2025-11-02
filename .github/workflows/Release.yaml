@@ -14,6 +14,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - run: |
+          git config --global user.email github-actions@github.com
+          git config --global user.name github-action
+
       - name: Update cocogitto version
         if: github.event_name == 'repository_dispatch' && github.event.action == 'cocogitto-released'
         run: |
