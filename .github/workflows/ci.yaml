@@ -61,6 +61,34 @@ jobs:
         if: steps.invalid-step.outcome == 'failure'
         run: echo "Action errored as expected"
 
+  test-install-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: cocogitto-action
+      - name: Initialise repository
+        run: |
+          git init
+          echo "# Mona Lisa" > README.md
+          git config --global user.name "Mona Lisa"
+          git config --global user.email "mona.lisa@example.com"
+          git add README.md
+          git commit -m "docs: add Mona Lisa docs"
+      - name: Install cocogitto
+        uses: ./cocogitto-action
+        id: install
+        with:
+          install-only: true
+      - name: Verify installation
+        run: |
+          output="$(cog check 2>&1)"
+          echo "Output: $output"
+          if [[ "$output" != "No errored commits" ]]; then
+            echo "cog did not run as expected"
+            exit 1
+          fi
+
   test-container:
     runs-on: ubuntu-latest
     container:

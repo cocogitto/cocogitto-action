@@ -19,9 +19,13 @@ inputs:
     description: Git user.email configuration
     required: false
     default: "github-actions[bot]@users.noreply.github.com"
+  install-only:
+    description: If true, install cocogitto and add to the path only
+    required: false
+    default: "false"
   command:
     description: The cocogitto command to run (e.g., check, release)
-    required: true
+    required: false # Required only when install-only is false
   args:
     description: Additional arguments for the cocogitto command
     required: false
@@ -55,6 +59,7 @@ runs:
 
     - id: cog
       shell: bash
+      if: ${{ inputs.install-only != 'true' }}
       run: |
         ${GITHUB_ACTION_PATH}/cog.sh \
         "${{ inputs.git-user }}" \
