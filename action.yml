@@ -46,6 +46,9 @@ runs:
       shell: bash
 
     - id: install
+      env:
+        GIT_USER: ${{ inputs.git-user }}
+        GIT_USER_EMAIL: ${{ inputs.git-user-email }}
       run: ${GITHUB_ACTION_PATH}/install.sh
       shell: bash
 
@@ -62,7 +65,5 @@ runs:
       if: ${{ inputs.install-only != 'true' }}
       run: |
         ${GITHUB_ACTION_PATH}/cog.sh \
-        "${{ inputs.git-user }}" \
-        "${{ inputs.git-user-email }}" \
         "${{ inputs.command }}" \
         "${{ inputs.args }}"
