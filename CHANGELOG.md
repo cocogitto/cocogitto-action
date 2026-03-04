@@ -9,6 +9,13 @@
 - add a workflow_dispatch option - ([605a53a](https://github.com/cocogitto/cocogitto-action/commit/605a53a0082b10e4887a9264d34ecae2ed568ea9)) - [@joshua-clayton](https://github.com/joshua-clayton)
 
 - - -
+## [v4.2.0](https://github.com/cocogitto/cocogitto-action/compare/fe8ace544dfe3291b84b665f242f79a4f206b2a2..v4.2.0) - 2026-03-04
+#### Features
+- update cocogitto to 7.0.0 - ([791f5c5](https://github.com/cocogitto/cocogitto-action/commit/791f5c57ed333b6b731946d086bea1fa7caef7df)) - github-action
+- support install only - ([fe8ace5](https://github.com/cocogitto/cocogitto-action/commit/fe8ace544dfe3291b84b665f242f79a4f206b2a2)) - Mona Lisa
+
+- - -
+
 ## [v4.1.0](https://github.com/cocogitto/cocogitto-action/compare/35451fc3148a21a1138c90a5ee7c1591a27c3fed..v4.1.0) - 2025-11-02
 #### Features
 - update cocogitto to 6.5.0 - ([42183d2](https://github.com/cocogitto/cocogitto-action/commit/42183d2af77737e0b172fa6202d3764162feebb8)) - [@oknozor](https://github.com/oknozor)
