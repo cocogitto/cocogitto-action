@@ -45,3 +45,13 @@ else
     tar --strip-components=1 -xzf $TAR "$ARCH-$PLATFORM/cog"
 fi
 cd "$CUR_DIR" || exit
+
+if ! git config --get user.name; then
+  echo "Setting git user : ${GIT_USER}"
+  git config --global user.name "${GIT_USER}"
+fi
+
+if ! git config --get user.email; then
+  echo "Setting git email : ${GIT_USER_EMAIL}"
+  git config --global user.email "${GIT_USER_EMAIL}"
+fi

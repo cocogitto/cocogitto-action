@@ -2,16 +2,9 @@
 
 set -a
 
-GIT_USER="${1}"
-GIT_USER_EMAIL="${2}"
-COMMAND="${3}"
-ARGS="${4}"
-
-echo "Setting git user : ${GIT_USER}"
-git config --global user.name "${GIT_USER}"
-
-echo "Setting git user email ${GIT_USER_EMAIL}"
-git config --global user.email "${GIT_USER_EMAIL}"
+COMMAND="${1}"
+shift
+ARGS="${*}"
 
 cog --version
 
